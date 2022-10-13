@@ -33,6 +33,19 @@ app.get('/utilisateur', (req, res) => {
 app.get('/typeHabilitation', (req, res) => {
     res.render('typeHabilitation') 
 })
+// gestion du courrier
+app.get('/courrier', (req, res) => {
+    res.render('courriel')
+})
+app.get('/courrier-recu', (req, res) => {
+    res.render('courriel_recu')
+})
+app.get('/courrier-sortant', (req, res) => {
+    res.render('courrier_sortant')
+})
+app.get('/annotation', (req, res) => {
+    res.render('annotation')
+})
 app.listen(process.env.PORT, () => {
     console.log(`Server started on http://localhost:${process.env.PORT}`)
 })

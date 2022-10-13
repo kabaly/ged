@@ -1,6 +1,7 @@
 
 const network = {
-    ip: '192.168.82.183',
+    ip: '192.168.82.176',
+    ip1: '10.0.180.37',
     port: 8000,
 }
 class ApiService {
@@ -78,5 +79,6 @@ class ApiService {
            Authorization: `token ${token}`
        })
    }
+   
 
 }

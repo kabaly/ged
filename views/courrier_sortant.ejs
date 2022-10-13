@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%-include('./component/head')%>
+        <body class="hold-transition light-skin sidebar-mini theme-primary
+            fixed">
+            <!-- Site wrapper -->
+            <div class="wrapper" id="app">
+
+                <!--entete-->
+                <%-include('./component/header')%>
+                    <!-- entete -->
+                    <!-- Left side column. contains the logo and sidebar -->
+                    <!--menu de navigation-->
+                    <%-include('./component/menu')%>
+
+
+
+                        <!-- Content Wrapper. Contains page content -->
+                        <div class="content-wrapper">
+                            <div class="container-full">
+                                <!-- Content Header (Page header) -->
+                                <div class="content-header">
+                                    <div class="d-flex align-items-center">
+                                        <div class="mr-auto">
+                                            <h3 class="page-title">Courriels</h3>
+                                            <div class="d-inline-block
+                                                align-items-center">
+                                                <nav>
+                                                    <ol class="breadcrumb">
+                                                        <li
+                                                            class="breadcrumb-item"><a
+                                                                href="#"><i
+                                                                    class="mdi
+                                                                    mdi-home-outline"></i></a></li>
+                                                        <li
+                                                            class="breadcrumb-item
+                                                            active"
+                                                            aria-current="page">Echange</li>
+                                                    </ol>
+                                                </nav>
+                                            </div>
+                                        </div>
+                                        <div class="right-title">
+                                            <div class="d-flex mt-10
+                                                justify-content-end">
+                                                <div class="d-lg-flex mr-20
+                                                    ml-10 d-none">
+                                                    <div class="chart-text mr-10
+                                                        text-center">
+                                                        <h5 class="mb-0">Total
+                                                                courriers sortants</h5>
+                                                        <h2 class="mt-0
+                                                            text-primary">{{
+                                                            courriers.length }}</h2>
+                                                    </div>
+
+                                                    <div class="spark-chart">
+                                                        <div id="thismonth"><canvas
+                                                                width="60"
+                                                                height="35"
+                                                                style="display:
+                                                                inline-block;
+                                                                width: 60px;
+                                                                height: 35px;
+                                                                vertical-align:
+                                                                top;"></canvas></div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-lg-flex mr-20
+                                                    ml-10 d-none">
+                                                    <div class="spark-chart">
+                                                        <div id="lastyear"><canvas
+                                                                width="60"
+                                                                height="35"
+                                                                style="display:
+                                                                inline-block;
+                                                                width: 60px;
+                                                                height: 35px;
+                                                                vertical-align:
+                                                                top;"></canvas></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Main content -->
+                                <section class="content">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="box">
+                                                <div class="box-header">
+                                                    <h4 class="box-title">
+                                                        GESTION DES COURRIERS
+                                                        SORTANTS
+                                                    </h4>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div
+                                                        class="exchange-calculator
+                                                        row d-flex
+                                                        justify-content-between">
+                                                        <div class="col-12
+                                                            col-sm-3">
+                                                            <a href="/courrier"
+                                                                class="btn
+                                                                btn-outline-success
+                                                                btn-large">
+                                                                Courriers
+                                                                entrants
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-12
+                                                            col-sm-3">
+                                                            <a
+                                                                href="/courrier-recu"
+                                                                class="btn
+                                                                btn-outline-success
+                                                                btn-large">
+                                                                Courriers reçus
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-12
+                                                            col-sm-3">
+                                                            <a
+                                                                href="/courrier-recu"
+                                                                class="btn
+                                                                btn-success
+                                                                active
+                                                                btn-large">
+                                                                Courriers sortants
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex mt-15
+                                                        mb-25">
+                                                        <div class="">
+                                                            <a class="btn
+                                                                btn-default
+                                                                text-uppercase"
+                                                                data-toggle="modal"
+                                                                data-target="#modal-center">
+                                                                <i class="mdi
+                                                                    mdi-plus-circle
+                                                                    text-success"></i>
+                                                                Nouveau courrier
+                                                            </a>
+                                                        </div>
+                                                        <!-- Modal -->
+                                                        <div class="modal
+                                                            center-modal fade"
+                                                            id="modal-center"
+                                                            tabindex="-1">
+                                                            <div
+                                                                class="modal-dialog">
+                                                                <div
+                                                                    class="modal-content">
+                                                                    <div
+                                                                        class="modal-header">
+                                                                        <h5
+                                                                            class="modal-title">Courriel</h5>
+                                                                        <button
+                                                                            type="button"
+                                                                            class="close"
+                                                                            data-dismiss="modal">
+                                                                            <span
+                                                                                aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div
+                                                                        class="modal-body">
+                                                                        <div
+                                                                            class="form-group
+                                                                            row">
+                                                                            <label
+                                                                                class="col-form-label
+                                                                                col-md-2">Fichier:</label>
+                                                                            <div
+                                                                                class="col-md-10">
+                                                                                <input
+                                                                                    class="form-control"
+                                                                                    type="file"
+                                                                                    name="contenu"
+                                                                                    v-on:change="onChangeFile"
+                                                                                    id="contenu">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div
+                                                                            class="form-group
+                                                                            row">
+                                                                            <label
+                                                                                class="col-form-label
+                                                                                col-md-2">Destination:</label>
+                                                                            <div
+                                                                                class="col-md-10">
+                                                                                <select name="categorie" id="categorie"
+                                                                                v-model="editedItem.destination"
+                                                                                class="form-control">
+                                                                                    <option value="">Selectionnez</option>
+                                                                                    <option value="DGSIC">DGSIC</option>
+                                                                                    <option value="DOFI">DOFI</option>
+                                                                                    <option value="DOPEF">DOPEF</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div
+                                                                            class="form-group
+                                                                            row">
+                                                                            <label
+                                                                                class="col-form-label
+                                                                                col-md-2">Catégorie:</label>
+                                                                            <div
+                                                                                class="col-md-10">
+                                                                                <select name="categorie" id="categorie"
+                                                                                v-model="editedItem.categorie"
+                                                                                class="form-control">
+                                                                                    <option value="">Selectionnez</option>
+                                                                                    <option value="DEMANDE">DEMANDE</option>
+                                                                                    <option value="LETTRE">LETTRE</option>
+                                                                                    <option value="RAPPORT">RAPPORT</option>
+                                                                                    <option value="ANALYSE">ANALYSE</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div
+                                                                            class="form-group
+                                                                            row">
+                                                                            <label
+                                                                                class="col-form-label
+                                                                                col-md-2">Objet:</label>
+                                                                            <div
+                                                                                class="col-md-10">
+                                                                                <input
+                                                                                    class="form-control"
+                                                                                    type="text"
+                                                                                    name="libelle"
+                                                                                    v-model="editedItem.objet">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="modal-footer
+                                                                        modal-footer-uniform">
+                                                                        <button
+                                                                            type="button"
+                                                                            class="btn
+                                                                            btn-danger"
+                                                                            data-dismiss="modal">Annuller</button>
+                                                                        <button
+                                                                            type="button"
+                                                                            class="btn
+                                                                            btn-success
+                                                                            float-right"
+                                                                            data-dismiss="modal"
+                                                                            @click="add">Enrégistrer</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Fin modal ajout courriel entrant -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+
+                                      
+                                            <!-- Fin courrier non evoyé -->
+
+                                            <!-- Courriers envoyés -->
+                                            <div class="row">
+                                                <v class="col-12">
+                                                    <h3 class="text-center mb-6
+                                                        text-uppercase">Courriers sortants
+                                                        </h3>
+                                                </v><br><br>
+                                                <div class="col-lg-3 col-md-6"
+                                                    v-for="(c, index) in
+                                                    courriers" :key="index">
+                                                    <div class="box pull-up">
+                                                        <div class="box-body">
+                                                            <div class="media
+                                                                align-items-center
+                                                                p-0">
+                                                                <div>
+                                                                    <h4
+                                                                        class="no-margin
+                                                                        text-bold">
+                                                                        {{
+                                                                        normalizeStr(c.courrier.objet)
+                                                                        }}
+                                                                    </h4>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="align-items-center
+                                                                mt-5">
+                                                                <div>
+                                                                    <p
+                                                                        class="no-margin
+                                                                        font-weight-600"><span
+                                                                            class="text-warning">
+                                                                            {{
+                                                                            c.courrier.destination
+                                                                            }}
+                                                                        </p>
+                                                                    </div>
+                                                                    <div>
+                                                                        <p
+                                                                            class="no-margin
+                                                                            font-weight-600"><span
+                                                                                class="text-success">
+                                                                                {{
+                                                                                c.courrier.date
+                                                                                }}</span></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex
+                                                                justify-content-between">
+                                                                <h4
+                                                                    class="ml-4">Numéro:
+                                                                    {{
+                                                                    c.courrier.id
+                                                                    }}</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row d-flex
+                                                    justify-content-center">
+                                                    <div class="col-12">
+                                                        <alert-component
+                                                            v-bind:alert="alert">
+                                                        </alert-component>
+                                                    </div>
+                                                </div>
+                                                <!-- Fin courriers evoyés -->
+                                                <!-- Vue de liste -->
+
+
+                                            </section>
+                                            <!-- /.content -->
+
+                                        </div>
+                                    </div>
+                                    <!-- /.content-wrapper -->
+
+                                    <footer class="main-footer">
+                                        <div class="pull-right d-none
+                                            d-sm-inline-block">
+                                            <ul class="nav nav-primary
+                                                nav-dotted nav-dot-separated
+                                                justify-content-center
+                                                justify-content-md-end">
+                                                <li class="nav-item">
+                                                    <a class="nav-link"
+                                                        href="javascript:void(0)">FAQ</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link"
+                                                        href="#">Purchase Now</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        &copy; 2020 <a
+                                            href="https://www.multipurposethemes.com/">Multipurpose
+                                            Themes</a>. All Rights Reserved.
+                                    </footer>
+                                    <!-- Control Sidebar -->
+                                    <aside class="control-sidebar">
+
+                                        <div class="rpanel-title">
+                                            <span class="pull-right btn
+                                                btn-circle p-10">
+                                                <img
+                                                    src="../images/svg-icon/close.svg"
+                                                    data-toggle="control-sidebar"
+                                                    class="img-fluid svg-icon"
+                                                    alt="">
+                                            </span>
+                                        </div> <!-- Create the tabs -->
+                                        <ul class="nav nav-tabs
+                                            control-sidebar-tabs">
+                                            <li class="nav-item"><a
+                                                    href="#control-sidebar-home-tab"
+                                                    data-toggle="tab"><img
+                                                        src="../images/svg-icon/apps.svg"
+                                                        class="img-fluid
+                                                        svg-icon" alt=""></a></li>
+                                            <li class="nav-item"><a
+                                                    href="#control-sidebar-settings-tab"
+                                                    data-toggle="tab"><img
+                                                        src="../images/svg-icon/advanced.svg"
+                                                        class="img-fluid
+                                                        svg-icon" alt=""></a></li>
+                                        </ul>
+                                        <!-- Tab panes -->
+                                        <div class="tab-content">
+                                            <!-- Home tab content -->
+                                            <div class="tab-pane"
+                                                id="control-sidebar-home-tab">
+                                                <div class="flexbox">
+                                                    <a href="javascript:void(0)"
+                                                        class="text-grey">
+                                                        <i class="ti-more"></i>
+                                                    </a>
+                                                    <p>Users</p>
+                                                    <a href="javascript:void(0)"
+                                                        class="text-right
+                                                        text-grey"><i
+                                                            class="ti-plus"></i></a>
+                                                </div>
+                                                <div class="lookup lookup-sm
+                                                    lookup-right d-none
+                                                    d-lg-block">
+                                                    <input type="text" name="s"
+                                                        placeholder="Search"
+                                                        class="w-p100">
+                                                </div>
+                                                <div class="media-list
+                                                    media-list-hover mt-20">
+                                                    <div class="media py-10
+                                                        px-0">
+                                                        <a class="avatar
+                                                            avatar-lg
+                                                            status-success"
+                                                            href="#">
+                                                            <img
+                                                                src="../images/avatar/1.jpg"
+                                                                alt="...">
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <p
+                                                                class="font-size-16">
+                                                                <a
+                                                                    class="hover-primary"
+                                                                    href="#"><strong>Tyler</strong></a>
+                                                            </p>
+                                                            <p>Praesent
+                                                                tristique
+                                                                diam...</p>
+                                                            <span>Just now</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="media py-10
+                                                        px-0">
+                                                        <a class="avatar
+                                                            avatar-lg
+                                                            status-danger"
+                                                            href="#">
+                                                            <img
+                                                                src="../images/avatar/2.jpg"
+                                                                alt="...">
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <p
+                                                                class="font-size-16">
+                                                                <a
+                                                                    class="hover-primary"
+                                                                    href="#"><strong>Luke</strong></a>
+                                                            </p>
+                                                            <p>Cras tempor diam
+                                                                ...</p>
+                                                            <span>33 min ago</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="media py-10
+                                                        px-0">
+                                                        <a class="avatar
+                                                            avatar-lg
+                                                            status-warning"
+                                                            href="#">
+                                                            <img
+                                                                src="../images/avatar/3.jpg"
+                                                                alt="...">
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <p
+                                                                class="font-size-16">
+                                                                <a
+                                                                    class="hover-primary"
+                                                                    href="#"><strong>Evan</strong></a>
+                                                            </p>
+                                                            <p>In posuere tortor
+                                                                vel...</p>
+                                                            <span>42 min ago</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="media py-10
+                                                        px-0">
+                                                        <a class="avatar
+                                                            avatar-lg
+                                                            status-primary"
+                                                            href="#">
+                                                            <img
+                                                                src="../images/avatar/4.jpg"
+                                                                alt="...">
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <p
+                                                                class="font-size-16">
+                                                                <a
+                                                                    class="hover-primary"
+                                                                    href="#"><strong>Evan</strong></a>
+                                                            </p>
+                                                            <p>In posuere tortor
+                                                                vel...</p>
+                                                            <span>42 min ago</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="media py-10
+                                                        px-0">
+                                                        <a class="avatar
+                                                            avatar-lg
+                                                            status-success"
+                                                            href="#">
+                                                            <img
+                                                                src="../images/avatar/1.jpg"
+                                                                alt="...">
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <p
+                                                                class="font-size-16">
+                                                                <a
+                                                                    class="hover-primary"
+                                                                    href="#"><strong>Tyler</strong></a>
+                                                            </p>
+                                                            <p>Praesent
+                                                                tristique
+                                                                diam...</p>
+                                                            <span>Just now</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="media py-10
+                                                        px-0">
+                                                        <a class="avatar
+                                                            avatar-lg
+                                                            status-danger"
+                                                            href="#">
+                                                            <img
+                                                                src="../images/avatar/2.jpg"
+                                                                alt="...">
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <p
+                                                                class="font-size-16">
+                                                                <a
+                                                                    class="hover-primary"
+                                                                    href="#"><strong>Luke</strong></a>
+                                                            </p>
+                                                            <p>Cras tempor diam
+                                                                ...</p>
+                                                            <span>33 min ago</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="media py-10
+                                                        px-0">
+                                                        <a class="avatar
+                                                            avatar-lg
+                                                            status-warning"
+                                                            href="#">
+                                                            <img
+                                                                src="../images/avatar/3.jpg"
+                                                                alt="...">
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <p
+                                                                class="font-size-16">
+                                                                <a
+                                                                    class="hover-primary"
+                                                                    href="#"><strong>Evan</strong></a>
+                                                            </p>
+                                                            <p>In posuere tortor
+                                                                vel...</p>
+                                                            <span>42 min ago</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="media py-10
+                                                        px-0">
+                                                        <a class="avatar
+                                                            avatar-lg
+                                                            status-primary"
+                                                            href="#">
+                                                            <img
+                                                                src="../images/avatar/4.jpg"
+                                                                alt="...">
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <p
+                                                                class="font-size-16">
+                                                                <a
+                                                                    class="hover-primary"
+                                                                    href="#"><strong>Evan</strong></a>
+                                                            </p>
+                                                            <p>In posuere tortor
+                                                                vel...</p>
+                                                            <span>42 min ago</span>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            <!-- /.tab-pane -->
+                                            <!-- Settings tab content -->
+                                            <div class="tab-pane"
+                                                id="control-sidebar-settings-tab">
+                                                <div class="flexbox">
+                                                    <a href="javascript:void(0)"
+                                                        class="text-grey">
+                                                        <i class="ti-more"></i>
+                                                    </a>
+                                                    <p>Todo List</p>
+                                                    <a href="javascript:void(0)"
+                                                        class="text-right
+                                                        text-grey"><i
+                                                            class="ti-plus"></i></a>
+                                                </div>
+                                                <ul class="todo-list mt-20">
+                                                    <li class="py-15 px-5 by-1">
+                                                        <!-- checkbox -->
+                                                        <input type="checkbox"
+                                                            id="basic_checkbox_1"
+                                                            class="filled-in">
+                                                        <label
+                                                            for="basic_checkbox_1"
+                                                            class="mb-0 h-15"></label>
+                                                        <!-- todo text -->
+                                                        <span class="text-line">Nulla
+                                                            vitae purus</span>
+                                                        <!-- Emphasis label -->
+                                                        <small class="badge
+                                                            bg-danger"><i
+                                                                class="fa
+                                                                fa-clock-o"></i>
+                                                            2
+                                                            mins</small>
+                                                        <!-- General tools such as edit or delete-->
+                                                        <div class="tools">
+                                                            <i class="fa
+                                                                fa-edit"></i>
+                                                            <i class="fa
+                                                                fa-trash-o"></i>
+                                                        </div>
+                                                    </li>
+                                                    <li class="py-15 px-5">
+                                                        <!-- checkbox -->
+                                                        <input type="checkbox"
+                                                            id="basic_checkbox_2"
+                                                            class="filled-in">
+                                                        <label
+                                                            for="basic_checkbox_2"
+                                                            class="mb-0 h-15"></label>
+                                                        <span class="text-line">Phasellus
+                                                            interdum</span>
+                                                        <small class="badge
+                                                            bg-info"><i
+                                                                class="fa
+                                                                fa-clock-o"></i>
+                                                            4 hours</small>
+                                                        <div class="tools">
+                                                            <i class="fa
+                                                                fa-edit"></i>
+                                                            <i class="fa
+                                                                fa-trash-o"></i>
+                                                        </div>
+                                                    </li>
+                                                    <li class="py-15 px-5 by-1">
+                                                        <!-- checkbox -->
+                                                        <input type="checkbox"
+                                                            id="basic_checkbox_3"
+                                                            class="filled-in">
+                                                        <label
+                                                            for="basic_checkbox_3"
+                                                            class="mb-0 h-15"></label>
+                                                        <span class="text-line">Quisque
+                                                            sodales</span>
+                                                        <small class="badge
+                                                            bg-warning"><i
+                                                                class="fa
+                                                                fa-clock-o"></i>
+                                                            1
+                                                            day</small>
+                                                        <div class="tools">
+                                                            <i class="fa
+                                                                fa-edit"></i>
+                                                            <i class="fa
+                                                                fa-trash-o"></i>
+                                                        </div>
+                                                    </li>
+                                                    <li class="py-15 px-5">
+                                                        <!-- checkbox -->
+                                                        <input type="checkbox"
+                                                            id="basic_checkbox_4"
+                                                            class="filled-in">
+                                                        <label
+                                                            for="basic_checkbox_4"
+                                                            class="mb-0 h-15"></label>
+                                                        <span class="text-line">Proin
+                                                            nec mi porta</span>
+                                                        <small class="badge
+                                                            bg-success"><i
+                                                                class="fa
+                                                                fa-clock-o"></i>
+                                                            3
+                                                            days</small>
+                                                        <div class="tools">
+                                                            <i class="fa
+                                                                fa-edit"></i>
+                                                            <i class="fa
+                                                                fa-trash-o"></i>
+                                                        </div>
+                                                    </li>
+                                                    <li class="py-15 px-5 by-1">
+                                                        <!-- checkbox -->
+                                                        <input type="checkbox"
+                                                            id="basic_checkbox_5"
+                                                            class="filled-in">
+                                                        <label
+                                                            for="basic_checkbox_5"
+                                                            class="mb-0 h-15"></label>
+                                                        <span class="text-line">Maecenas
+                                                            scelerisque</span>
+                                                        <small class="badge
+                                                            bg-primary"><i
+                                                                class="fa
+                                                                fa-clock-o"></i>
+                                                            1
+                                                            week</small>
+                                                        <div class="tools">
+                                                            <i class="fa
+                                                                fa-edit"></i>
+                                                            <i class="fa
+                                                                fa-trash-o"></i>
+                                                        </div>
+                                                    </li>
+                                                    <li class="py-15 px-5">
+                                                        <!-- checkbox -->
+                                                        <input type="checkbox"
+                                                            id="basic_checkbox_6"
+                                                            class="filled-in">
+                                                        <label
+                                                            for="basic_checkbox_6"
+                                                            class="mb-0 h-15"></label>
+                                                        <span class="text-line">Vivamus
+                                                            nec orci</span>
+                                                        <small class="badge
+                                                            bg-info"><i
+                                                                class="fa
+                                                                fa-clock-o"></i>
+                                                            1 month</small>
+                                                        <div class="tools">
+                                                            <i class="fa
+                                                                fa-edit"></i>
+                                                            <i class="fa
+                                                                fa-trash-o"></i>
+                                                        </div>
+                                                    </li>
+                                                    <li class="py-15 px-5 by-1">
+                                                        <!-- checkbox -->
+                                                        <input type="checkbox"
+                                                            id="basic_checkbox_7"
+                                                            class="filled-in">
+                                                        <label
+                                                            for="basic_checkbox_7"
+                                                            class="mb-0 h-15"></label>
+                                                        <!-- todo text -->
+                                                        <span class="text-line">Nulla
+                                                            vitae purus</span>
+                                                        <!-- Emphasis label -->
+                                                        <small class="badge
+                                                            bg-danger"><i
+                                                                class="fa
+                                                                fa-clock-o"></i>
+                                                            2
+                                                            mins</small>
+                                                        <!-- General tools such as edit or delete-->
+                                                        <div class="tools">
+                                                            <i class="fa
+                                                                fa-edit"></i>
+                                                            <i class="fa
+                                                                fa-trash-o"></i>
+                                                        </div>
+                                                    </li>
+                                                    <li class="py-15 px-5">
+                                                        <!-- checkbox -->
+                                                        <input type="checkbox"
+                                                            id="basic_checkbox_8"
+                                                            class="filled-in">
+                                                        <label
+                                                            for="basic_checkbox_8"
+                                                            class="mb-0 h-15"></label>
+                                                        <span class="text-line">Phasellus
+                                                            interdum</span>
+                                                        <small class="badge
+                                                            bg-info"><i
+                                                                class="fa
+                                                                fa-clock-o"></i>
+                                                            4 hours</small>
+                                                        <div class="tools">
+                                                            <i class="fa
+                                                                fa-edit"></i>
+                                                            <i class="fa
+                                                                fa-trash-o"></i>
+                                                        </div>
+                                                    </li>
+                                                    <li class="py-15 px-5 by-1">
+                                                        <!-- checkbox -->
+                                                        <input type="checkbox"
+                                                            id="basic_checkbox_9"
+                                                            class="filled-in">
+                                                        <label
+                                                            for="basic_checkbox_9"
+                                                            class="mb-0 h-15"></label>
+                                                        <span class="text-line">Quisque
+                                                            sodales</span>
+                                                        <small class="badge
+                                                            bg-warning"><i
+                                                                class="fa
+                                                                fa-clock-o"></i>
+                                                            1
+                                                            day</small>
+                                                        <div class="tools">
+                                                            <i class="fa
+                                                                fa-edit"></i>
+                                                            <i class="fa
+                                                                fa-trash-o"></i>
+                                                        </div>
+                                                    </li>
+                                                    <li class="py-15 px-5">
+                                                        <!-- checkbox -->
+                                                        <input type="checkbox"
+                                                            id="basic_checkbox_10"
+                                                            class="filled-in">
+                                                        <label
+                                                            for="basic_checkbox_10"
+                                                            class="mb-0 h-15"></label>
+                                                        <span class="text-line">Proin
+                                                            nec mi porta</span>
+                                                        <small class="badge
+                                                            bg-success"><i
+                                                                class="fa
+                                                                fa-clock-o"></i>
+                                                            3
+                                                            days</small>
+                                                        <div class="tools">
+                                                            <i class="fa
+                                                                fa-edit"></i>
+                                                            <i class="fa
+                                                                fa-trash-o"></i>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <!-- /.tab-pane -->
+                                        </div>
+                                    </aside>
+                                    <!-- /.control-sidebar -->
+
+                                    <!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
+                                    <div class="control-sidebar-bg"></div>
+                                </div>
+                                <!-- ./wrapper -->
+
+
+                                <!-- Vendor JS -->
+                                <%-include('./component/script')%>
+                                    <script>
+			var app = new Vue({
+				el: "#app",
+				data() {
+					return {
+						// statut d'affichage des courriers
+						editedItem: {
+							objet: null,
+							contenu: null,
+                            categorie: null,
+                            destination: null
+						},
+						token: null,
+						courriers: [],
+						files: null,
+						image: '',
+						alert: null
+					};
+				},
+				methods: {
+					sendCourrier(id) {
+						this.envoi.courrier = id
+					},
+					createImage(file) {
+						var image = new Image()
+						var reader = new FileReader()
+						var vm = this
+						reader.onload = (e) => {
+							vm.image = e.target.result
+						}
+						reader.readAsDataURL(file)
+					},
+					removeImage: function(e) {
+						this.image = ''
+					},
+					onChangeFile(e) {
+					  let files = e.target.files || e.dataTransfer.files
+					  this.createImage(files[0])
+					  this.files = files[0]
+					},
+					add() {
+						//let contenu = document.getElementById('contenu')
+						//console.log(this.editedItem)
+							this.editedItem.contenu = this.files
+						CourrielService.ajoutCourrierSortant(this.editedItem, this.token)
+						.then((res) => {
+							this.courriers.push(res.data)
+							this.alert = new Alert().flash(
+								'success',
+								true,
+								'Ajouté avec succès !'
+						)
+						}).catch((err) => {
+							this.alert = new Alert().flash(
+								'error',
+								true,
+								"Erreur d'ajout"
+						)
+							console.log(err)
+						});
+					},
+					inititalize() {
+						CourrielService.listeCourrierSortant(this.token)
+						.then((res) => {
+							this.courriers = res.data
+							// les destinataires pour cet utilisateur
+						}).catch((err) => {
+							console.log(err)
+						});
+					},
+					// liste des courriers envoyés
+					normalizeStr(str) {
+						if(str.length > 22) {
+							return str.substring(0, 23) + '...'
+						}
+						return str
+					},
+				},
+				created() {
+					let store = JSON.parse(localStorage.getItem('token'))
+					if(store == null || store == undefined) {
+						return window.location.href = '/'
+					}
+					this.token = store.token
+					this.inititalize()
+				},
+			})
+		 </script>
+                                </body>
+                            </html>

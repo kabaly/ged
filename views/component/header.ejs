@@ -1,4 +1,4 @@
-<header class="main-header">
+<header class="main-header" id="header">
 	<div class="d-flex align-items-center logo-box pl-20">		
 		<a href="#" class="waves-effect waves-light nav-link rounded d-none d-md-inline-block push-btn" data-toggle="push-menu" role="button">
 			<img src="/images/svg-icon/collapse.svg" class="img-fluid svg-icon" alt="">
@@ -15,7 +15,7 @@
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top pl-10">
       <!-- Sidebar toggle button-->
-	  <div class="app-menu">
+	  <div class="app-menu d-flex justify-content-between">
 		<ul class="header-megamenu nav">
 			<li class="btn-group nav-item d-md-none">
 				<a href="#" class="waves-effect waves-light nav-link rounded push-btn" data-toggle="push-menu" role="button">
@@ -27,25 +27,22 @@
 					<img src="../images/svg-icon/fullscreen.svg" class="img-fluid svg-icon" alt="">
 			    </a>
 			</li>
-			<li class="btn-group d-md-inline-flex d-none">
-				<div class="search-bx ml-10">
-					<form>
-						<div class="input-group">
-						  <input type="search" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
-						  <div class="input-group-append">
-							<button class="btn" type="submit" id="button-addon2"><img src="/images/svg-icon/search.svg" class="img-fluid" alt="search"></button>
-						  </div>
-						</div>
-					</form>
-				</div>
-			</li>
+			
 		</ul> 
 	  </div>
 		
       <div class="navbar-custom-menu r-side">
-        <ul class="nav navbar-nav">	
+        <ul class="nav navbar-nav">
+			<h5
+			style="position:relative!important;top:1.5em!important;right:10em;"
+			class="text-uppercase">
+			{{ store.organisme.libelle }} / {{ store.appart.nom }}
+			</h5>
+			<h5
+			style="position:relative!important;top:1.5em!important;right:2em;"
+			class="text-uppercase">{{ store.user.prenom + " " + store.user.nom }}</h5>
 		  <!-- Notifications -->
-		  <li class="dropdown notifications-menu">
+		  <li class="dropdown notifications-menu" v-if="notify">
 			<a href="#" class="waves-effect waves-light dropdown-toggle" data-toggle="dropdown" title="Notifications">
 			  <img src="/images/svg-icon/notifications.svg" class="img-fluid svg-icon" alt="">
 			</a>
@@ -121,22 +118,19 @@
 				  <div class="flexbox align-self-center">					  
 				  	<img src="/images/avatar/7.jpg" class="float-left rounded-circle" alt="User Image">					  
 					<h4 class="user-name align-self-center">
-					  <span>Samuel Brus</span>
-					  <small>samuel@gmail.com</small>
+					  <span>
+						{{ store.user.prenom + ' ' + store.user.nom }}
+					  </span>
+					  <small>{{ store.user.email }}</small>
 					</h4>
 				  </div>
               </li>
               <!-- Menu Body -->
               <li class="user-body">
-				    <a class="dropdown-item" href="javascript:void(0)"><i class="ion ion-person"></i> My Profile</a>
-					<a class="dropdown-item" href="javascript:void(0)"><i class="ion ion-bag"></i> My Balance</a>
-					<a class="dropdown-item" href="javascript:void(0)"><i class="ion ion-email-unread"></i> Inbox</a>
+				    <a class="dropdown-item" href="javascript:void(0)"><i class="ion ion-person"></i>Profile</a>
 					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="javascript:void(0)"><i class="ion ion-settings"></i> Account Setting</a>
+					<a class="dropdown-item" href="/"><i class="ion-log-out"></i>Déconnexion</a>
 					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="javascript:void(0)"><i class="ion-log-out"></i> Logout</a>
-					<div class="dropdown-divider"></div>
-					<div class="p-10"><a href="javascript:void(0)" class="btn btn-sm btn-rounded btn-success">View Profile</a></div>
               </li>
             </ul>
           </li>	

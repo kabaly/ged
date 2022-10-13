@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+	<%-include('./component/head')%>
+
+		<body class="hold-transition light-skin sidebar-mini theme-primary fixed">
+			<div class="wrapper" id="app">
+
+				<!--entete-->
+				<%-include('./component/header')%>
+					<!-- entete -->
+					<!-- Left side column. contains the logo and sidebar -->
+					<!--menu de navigation-->
+					<%-include('./component/menu')%>
+
+						<!-- Content Wrapper. Contains page content -->
+						<div class="content-wrapper">
+							<div class="container-full">
+								<!-- Content Header (Page header) -->
+								<div class="content-header">
+									<div class="d-flex align-items-center">
+										<div class="mr-auto">
+											<h3 class="page-title">ANNOTATIONS</h3>
+											<div class="d-inline-block align-items-center">
+												<nav>
+													<ol class="breadcrumb">
+														<li class="breadcrumb-item"><a href="#"><i class="mdi
+																	mdi-home-outline"></i></a></li>
+														<li class="breadcrumb-item active" aria-current="page">Visualisation-Analyse-Traitement</li>
+													</ol>
+												</nav>
+											</div>
+										</div>
+										<div class="right-title">
+											<div class="d-flex mt-10 justify-content-end">
+												<div class="d-lg-flex mr-20 ml-10 d-none">
+													<div class="chart-text mr-10 text-center">
+														<h4 class="mb-0">Total annotations</h4>
+														<h4 class="mt-0 text-primary">{{ annotations.length }}</h4>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<!-- Main content -->
+								<section class="content">
+
+									<!-- tabs -->
+
+									<div class="row">
+
+										<div class="col-12">
+											<div class="box box-default">
+												<div class="box-header with-border">
+													<h4 class="box-title">Courrier n°: {{ courrierSelected.id }}</h4>
+													<h6 class="text-primary">
+														<span>Catégorie: {{ courrierSelected.categorie}}</span>
+													</h6>
+													<a href="/courrier-recu" class="btn btn-danger text-right">Retour</a>
+												</div>
+												<!-- /.box-header -->
+												<div class="box-body">
+													<!-- Nav tabs -->
+													<ul class="nav nav-tabs nav-fill" role="tablist">
+														<li class="nav-item"> <a class="nav-link active" data-toggle="tab"
+																href="#consultation" role="tab">
+																<span><i class="mdi mdi-eye text-white"
+																		style="font-size:2em!important"></i></span>
+																<span class="hidden-xs-down ml-15">Consultation</span></a>
+														</li>
+														<li class="nav-item"
+															@click="getAnnotation"> <a class="nav-link" data-toggle="tab"
+																href="#home11" role="tab">
+																<span><i class="mdi mdi-email-seal-outline text-white"
+																		style="font-size:2em!important"></i></span>
+																<span class="hidden-xs-down ml-15">Annotations</span></a>
+														</li>
+														<li class="nav-item">
+															<a class="nav-link" data-toggle="tab" href="#profile11"
+																role="tab">
+																<span><i class="mdi mdi-email-edit text-white"
+																		style="font-size:2em!important"></i></span>
+																<span class="hidden-xs-down ml-15">Edition</span>
+															</a> </li>
+													</ul>
+													<!-- Tab panes Consultation-->
+													<div class="tab-content tabcontent-border">
+														<div class="tab-pane active" id="consultation" role="tabpanel">
+															<div class="p-15">
+																<div class="row">
+																	<div class="col-12 col-md-8">
+																		<alert-component v-bind:alert="alert1"></alert-component>
+																		<h3>objet: {{ courrierSelected.objet}}</h3>
+																		<p>
+																			<a href="">Contenu: {{ courrierSelected.contenu }}</a>
+																		</p>
+																		<button class="btn btn-outline-success"
+																		data-toggle="modal" data-target="#send-modal-center">
+																			<i class="mdi mdi-email white--text"></i>
+																			Envoyer
+																		</button>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<!-- Annotation -->
+														<div class="tab-pane" id="home11" role="tabpanel">
+															<div class="p-15">
+																<div class="row">
+																	<div class="col-12 col-md-4"
+																		v-for="(an, index) in annotations" :key="index">
+																		<div class="card p-3">
+																			<h4>
+																				<i class="mdi mdi-file"
+																					style="font-size: 2em!important"></i>
+																				{{ an.annotation.titre }}
+																			</h4>
+																			<h5>
+																				<span>{{ an.appart.nom }}
+																					{{ an.organisme.libelle }}
+																				</span>
+																			</h5>
+																			<h6>
+																				<a href="" class="text-primary">
+																					{{
+																					an.annotation.contenu.split('/')[an.annotation.contenu.split('/').length
+																					-1 ] }}
+																				</a>
+																			</h6>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="tab-pane" id="profile11" role="tabpanel">
+															<div class="p-15">
+																<div class="row d-flex justify-content-center">
+																	<div class="col-12 col-md-6">
+																		<h4>Ajout d'une annotation</h4>
+																		<alert-component v-bind:alert="alert">
+																		</alert-component>
+																		<div class="form-group">
+																			<label for="titre">Titre</label>
+																			<select name="titre" id="titre" class="text-uppercase
+																				form-control"
+																				v-model="annotation.titre">
+																				<option value="">Selectionnnez</option>
+																				<option value="Fichier d'analyse">Fichier d'analyse</option>
+																				<option value="Soit transmis">Soit transmis</option>
+																				<option value="Avis d'éxécution">Avis d'éxécution</option>
+																				<option value="Avis de rejet">Avis de rejet</option>
+																			</select>
+																		</div>
+																		<div class="form-group">
+																			<label for="fichier">Fichier</label>
+																			<input type="file" name="contenu" id="contenu"
+																				class="form-control"
+																				v-on:change="onChangeFile"
+																				v-model="files">
+																		</div>
+																		<div class="text-center">
+																			<button class="btn btn-success btn-large"
+																				@click="ajoutAnnotation">Ajouter</button>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<!-- /.box-body -->
+											</div>
+											<!-- /.box -->
+										</div>
+										<!-- /.col -->
+										<!-- Modal-envoi-courriel -->
+										<div class="modal center-modal fade" id="send-modal-center"
+											tabindex="-1">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title">Envoi d'un courriel</h5>
+														<button type="button" class="close" data-dismiss="modal">
+															<span aria-hidden="true">&times;</span>
+														</button>
+													</div>
+													<div class="modal-body">
+														<div class="form-group row">
+															<label class="col-form-label col-md-2">Destinataire:</label>
+															<div class="col-md-10">
+																<select name="destinataire" id="destinataire"
+																	class="form-control text-uppercase" v-model="envoi.destinataire">
+																	<option value="">Selectionnez</option>
+																	<option
+																		v-for="(d, i) in appAssocies" :key="i"
+																		:value="d.appart.id">
+																		{{ d.appart.nom }} - {{ d.organisme.libelle }}
+																	</option>
+																</select>
+															</div>
+														</div>
+													</div>
+													<div class="modal-footer modal-footer-uniform">
+														<button type="button" class="btn btn-danger"
+															data-dismiss="modal">Annuller</button>
+														<button type="button" class="btn btn-success float-right"
+															data-dismiss="modal"
+															@click="addTrafic">Envoyer</button>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- Fin modal envoi courriel -->
+									</div>
+									<!-- /.row -->
+									<!-- END tabs -->
+
+								</section>
+								<!-- /.content -->
+							</div>
+						</div>
+						<!-- /.content-wrapper -->
+
+						<footer class="main-footer">
+							<div class="pull-right d-none d-sm-inline-block">
+
+							</div>
+
+						</footer>
+						<!-- Control Sidebar -->
+						<aside class="control-sidebar">
+
+							<div class="rpanel-title">
+								<span class="pull-right btn btn-circle p-10">
+									<img src="../images/svg-icon/close.svg" data-toggle="control-sidebar"
+										class="img-fluid svg-icon" alt="">
+								</span>
+							</div> <!-- Create the tabs -->
+							<ul class="nav nav-tabs control-sidebar-tabs">
+								<li class="nav-item"><a href="#control-sidebar-home-tab"
+										data-toggle="tab"><img src="../images/svg-icon/apps.svg"
+											class="img-fluid svg-icon" alt=""></a></li>
+								<li class="nav-item"><a href="#control-sidebar-settings-tab"
+										data-toggle="tab"><img src="../images/svg-icon/advanced.svg"
+											class="img-fluid svg-icon" alt=""></a></li>
+							</ul>
+							<!-- Tab panes -->
+							<div class="tab-content">
+								<!-- Home tab content -->
+								<div class="tab-pane" id="control-sidebar-home-tab">
+									<div class="flexbox">
+										<a href="javascript:void(0)" class="text-grey">
+											<i class="ti-more"></i>
+										</a>
+										<p>Users</p>
+										<a href="javascript:void(0)" class="text-right text-grey"><i
+												class="ti-plus"></i></a>
+									</div>
+									<div class="lookup lookup-sm lookup-right d-none d-lg-block">
+										<input type="text" name="s" placeholder="Search" class="w-p100">
+									</div>
+									<div class="media-list media-list-hover mt-20">
+										<div class="media py-10 px-0">
+											<a class="avatar avatar-lg status-success" href="#">
+												<img src="../images/avatar/1.jpg" alt="...">
+											</a>
+											<div class="media-body">
+												<p class="font-size-16">
+													<a class="hover-primary" href="#"><strong>Tyler</strong></a>
+												</p>
+												<p>Praesent tristique diam...</p>
+												<span>Just now</span>
+											</div>
+										</div>
+
+										<div class="media py-10 px-0">
+											<a class="avatar avatar-lg status-danger" href="#">
+												<img src="../images/avatar/2.jpg" alt="...">
+											</a>
+											<div class="media-body">
+												<p class="font-size-16">
+													<a class="hover-primary" href="#"><strong>Luke</strong></a>
+												</p>
+												<p>Cras tempor diam ...</p>
+												<span>33 min ago</span>
+											</div>
+										</div>
+
+										<div class="media py-10 px-0">
+											<a class="avatar avatar-lg status-warning" href="#">
+												<img src="../images/avatar/3.jpg" alt="...">
+											</a>
+											<div class="media-body">
+												<p class="font-size-16">
+													<a class="hover-primary" href="#"><strong>Evan</strong></a>
+												</p>
+												<p>In posuere tortor vel...</p>
+												<span>42 min ago</span>
+											</div>
+										</div>
+
+										<div class="media py-10 px-0">
+											<a class="avatar avatar-lg status-primary" href="#">
+												<img src="../images/avatar/4.jpg" alt="...">
+											</a>
+											<div class="media-body">
+												<p class="font-size-16">
+													<a class="hover-primary" href="#"><strong>Evan</strong></a>
+												</p>
+												<p>In posuere tortor vel...</p>
+												<span>42 min ago</span>
+											</div>
+										</div>
+
+										<div class="media py-10 px-0">
+											<a class="avatar avatar-lg status-success" href="#">
+												<img src="../images/avatar/1.jpg" alt="...">
+											</a>
+											<div class="media-body">
+												<p class="font-size-16">
+													<a class="hover-primary" href="#"><strong>Tyler</strong></a>
+												</p>
+												<p>Praesent tristique diam...</p>
+												<span>Just now</span>
+											</div>
+										</div>
+
+										<div class="media py-10 px-0">
+											<a class="avatar avatar-lg status-danger" href="#">
+												<img src="../images/avatar/2.jpg" alt="...">
+											</a>
+											<div class="media-body">
+												<p class="font-size-16">
+													<a class="hover-primary" href="#"><strong>Luke</strong></a>
+												</p>
+												<p>Cras tempor diam ...</p>
+												<span>33 min ago</span>
+											</div>
+										</div>
+
+										<div class="media py-10 px-0">
+											<a class="avatar avatar-lg status-warning" href="#">
+												<img src="../images/avatar/3.jpg" alt="...">
+											</a>
+											<div class="media-body">
+												<p class="font-size-16">
+													<a class="hover-primary" href="#"><strong>Evan</strong></a>
+												</p>
+												<p>In posuere tortor vel...</p>
+												<span>42 min ago</span>
+											</div>
+										</div>
+
+										<div class="media py-10 px-0">
+											<a class="avatar avatar-lg status-primary" href="#">
+												<img src="../images/avatar/4.jpg" alt="...">
+											</a>
+											<div class="media-body">
+												<p class="font-size-16">
+													<a class="hover-primary" href="#"><strong>Evan</strong></a>
+												</p>
+												<p>In posuere tortor vel...</p>
+												<span>42 min ago</span>
+											</div>
+										</div>
+
+									</div>
+
+								</div>
+								<!-- /.tab-pane -->
+								<!-- Settings tab content -->
+								<div class="tab-pane" id="control-sidebar-settings-tab">
+									<div class="flexbox">
+										<a href="javascript:void(0)" class="text-grey">
+											<i class="ti-more"></i>
+										</a>
+										<p>Todo List</p>
+										<a href="javascript:void(0)" class="text-right text-grey"><i
+												class="ti-plus"></i></a>
+									</div>
+									<ul class="todo-list mt-20">
+										<li class="py-15 px-5 by-1">
+											<!-- checkbox -->
+											<input type="checkbox" id="basic_checkbox_1" class="filled-in">
+											<label for="basic_checkbox_1" class="mb-0 h-15"></label>
+											<!-- todo text -->
+											<span class="text-line">Nulla vitae purus</span>
+											<!-- Emphasis label -->
+											<small class="badge bg-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
+											<!-- General tools such as edit or delete-->
+											<div class="tools">
+												<i class="fa fa-edit"></i>
+												<i class="fa fa-trash-o"></i>
+											</div>
+										</li>
+										<li class="py-15 px-5">
+											<!-- checkbox -->
+											<input type="checkbox" id="basic_checkbox_2" class="filled-in">
+											<label for="basic_checkbox_2" class="mb-0 h-15"></label>
+											<span class="text-line">Phasellus interdum</span>
+											<small class="badge bg-info"><i class="fa fa-clock-o"></i> 4 hours</small>
+											<div class="tools">
+												<i class="fa fa-edit"></i>
+												<i class="fa fa-trash-o"></i>
+											</div>
+										</li>
+										<li class="py-15 px-5 by-1">
+											<!-- checkbox -->
+											<input type="checkbox" id="basic_checkbox_3" class="filled-in">
+											<label for="basic_checkbox_3" class="mb-0 h-15"></label>
+											<span class="text-line">Quisque sodales</span>
+											<small class="badge bg-warning"><i class="fa fa-clock-o"></i> 1 day</small>
+											<div class="tools">
+												<i class="fa fa-edit"></i>
+												<i class="fa fa-trash-o"></i>
+											</div>
+										</li>
+										<li class="py-15 px-5">
+											<!-- checkbox -->
+											<input type="checkbox" id="basic_checkbox_4" class="filled-in">
+											<label for="basic_checkbox_4" class="mb-0 h-15"></label>
+											<span class="text-line">Proin nec mi porta</span>
+											<small class="badge bg-success"><i class="fa fa-clock-o"></i> 3 days</small>
+											<div class="tools">
+												<i class="fa fa-edit"></i>
+												<i class="fa fa-trash-o"></i>
+											</div>
+										</li>
+										<li class="py-15 px-5 by-1">
+											<!-- checkbox -->
+											<input type="checkbox" id="basic_checkbox_5" class="filled-in">
+											<label for="basic_checkbox_5" class="mb-0 h-15"></label>
+											<span class="text-line">Maecenas scelerisque</span>
+											<small class="badge bg-primary"><i class="fa fa-clock-o"></i> 1 week</small>
+											<div class="tools">
+												<i class="fa fa-edit"></i>
+												<i class="fa fa-trash-o"></i>
+											</div>
+										</li>
+										<li class="py-15 px-5">
+											<!-- checkbox -->
+											<input type="checkbox" id="basic_checkbox_6" class="filled-in">
+											<label for="basic_checkbox_6" class="mb-0 h-15"></label>
+											<span class="text-line">Vivamus nec orci</span>
+											<small class="badge bg-info"><i class="fa fa-clock-o"></i> 1 month</small>
+											<div class="tools">
+												<i class="fa fa-edit"></i>
+												<i class="fa fa-trash-o"></i>
+											</div>
+										</li>
+										<li class="py-15 px-5 by-1">
+											<!-- checkbox -->
+											<input type="checkbox" id="basic_checkbox_7" class="filled-in">
+											<label for="basic_checkbox_7" class="mb-0 h-15"></label>
+											<!-- todo text -->
+											<span class="text-line">Nulla vitae purus</span>
+											<!-- Emphasis label -->
+											<small class="badge bg-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
+											<!-- General tools such as edit or delete-->
+											<div class="tools">
+												<i class="fa fa-edit"></i>
+												<i class="fa fa-trash-o"></i>
+											</div>
+										</li>
+										<li class="py-15 px-5">
+											<!-- checkbox -->
+											<input type="checkbox" id="basic_checkbox_8" class="filled-in">
+											<label for="basic_checkbox_8" class="mb-0 h-15"></label>
+											<span class="text-line">Phasellus interdum</span>
+											<small class="badge bg-info"><i class="fa fa-clock-o"></i> 4 hours</small>
+											<div class="tools">
+												<i class="fa fa-edit"></i>
+												<i class="fa fa-trash-o"></i>
+											</div>
+										</li>
+										<li class="py-15 px-5 by-1">
+											<!-- checkbox -->
+											<input type="checkbox" id="basic_checkbox_9" class="filled-in">
+											<label for="basic_checkbox_9" class="mb-0 h-15"></label>
+											<span class="text-line">Quisque sodales</span>
+											<small class="badge bg-warning"><i class="fa fa-clock-o"></i> 1 day</small>
+											<div class="tools">
+												<i class="fa fa-edit"></i>
+												<i class="fa fa-trash-o"></i>
+											</div>
+										</li>
+										<li class="py-15 px-5">
+											<!-- checkbox -->
+											<input type="checkbox" id="basic_checkbox_10" class="filled-in">
+											<label for="basic_checkbox_10" class="mb-0 h-15"></label>
+											<span class="text-line">Proin nec mi porta</span>
+											<small class="badge bg-success"><i class="fa fa-clock-o"></i> 3 days</small>
+											<div class="tools">
+												<i class="fa fa-edit"></i>
+												<i class="fa fa-trash-o"></i>
+											</div>
+										</li>
+									</ul>
+								</div>
+								<!-- /.tab-pane -->
+							</div>
+						</aside>
+					</div>
+					<!-- /.control-sidebar -->
+
+					<%-include('./component/script')%>
+						<script>
+	let annotationVueApp = new Vue({
+		el:"#app",
+		data() {
+			return {
+				isAdd: true,
+				envoi: {
+					courrier: null,
+					destinataire: null
+				},
+				appAssocies: [],
+				annotation: {
+					titre: null,
+					contenu: null,
+					courrier: null
+				},
+				annotations: [],
+				files: [],
+				image: '',
+				store: null,
+				courrierSelected: null,
+				alert: null,
+				alert1: null,
+			}
+		},
+		methods: {
+			ajoutAnnotation() {
+				this.annotation.courrier = this.courrierSelected.id
+				CourrielService.ajoutAnnotation(this.store.token, this.annotation)
+				.then((res) => {
+					this.annotations.push(res.data)
+					this.annotation.titre = null
+					this.files = null
+					this.alert = new Alert().flash(
+						'success',
+						true,
+						'Courrier annoté avec succès !'
+					)
+				}).catch((err) => {
+					this.alert = new Alert().flash(
+						'error',
+						true,
+						'Erreur de validation!!!'
+					)
+					console.log(err)
+				})
+			},
+			getAnnotation() {
+				CourrielService.listeAnnotation(this.courrierSelected.id)
+				.then((res) => {
+					this.annotations = res.data
+				}).catch((err) => {
+					console.log(err)
+				});
+			},
+			addTrafic() {
+				this.envoi.courrier = this.courrierSelected.id
+						if(this.isAdd) {
+							CourrielService.ajoutTrafic(this.store.token, this.envoi)
+						.then((res) => {
+							this.alert1 = new Alert().flash(
+								'success',
+								true,
+								'Envoi effectué avec succès !'
+						)
+						this.envoi.destinataire = null
+						}).catch((err) => {
+							this.alert1 = new Alert().flash(
+								'error',
+								true,
+								"Erreur d'envoi du courrier"
+							)
+						});
+						}else {
+							CourrielService.updateTraffic(this.envoi, this.trafficSelected)
+							.then((result) => {
+								console.log(result.data)
+								this.alert = new Alert().flash(
+								'success',
+								true,
+								"Renvoi validé avec succès !"
+							)
+							}).catch((err) => {
+								this.alert = new Alert().flash(
+								'error',
+								true,
+								"Erreur de renvoi"
+							)
+								console.log(err)
+							});
+							this.isAdd = true
+						}
+						
+					},
+			initialize() {
+				CourrielService.appartsAssocies(this.store.token)
+						.then((res) => {
+							this.appAssocies = res.data
+						}).catch((err) => {
+							console.log(err)
+						});
+			},
+			createImage(file) {
+				var image = new Image()
+				var reader = new FileReader()
+				var vm = this
+				reader.onload = (e) => {
+					vm.image = e.target.result
+				}
+				reader.readAsDataURL(file)
+			},
+			removeImage: function(e) {
+				this.image = ''
+			},
+			onChangeFile(e) {
+				let files = e.target.files || e.dataTransfer.files
+				this.createImage(files[0])
+				this.annotation.contenu = files[0]
+			}
+		},
+		created() {
+			this.store = JSON.parse(localStorage.getItem('token'))
+			if(this.store == null || this.store == undefined) {
+				return window.location.href = '/'
+			}
+			this.courrierSelected = JSON.parse(localStorage.getItem('courrier'))
+			if(this.courrierSelected == null || this.courrierSelected == undefined) {
+				return window.location.href = '/'
+			}
+			this.initialize()
+		},
+	})
+  </script>
+					</body>
+				</html>
