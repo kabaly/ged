@@ -1,13 +1,14 @@
 
 const network = {
     ip: '192.168.82.176',
+    productionIp: '192.168.82.2',
     ip1: '10.0.180.37',
     port: 8000,
 }
 class ApiService {
     axiosInstance() {
         return axios.create({
-            baseURL: `http://${network.ip}:${network.port}`
+            baseURL: `http://${network.productionIp}:${network.port}`
         })
     }
     getUrl() {
